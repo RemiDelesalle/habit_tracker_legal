@@ -1,3 +1,167 @@
+# Objectif du site
+
+Créer un site vitrine officiel pour l'application mobile HabitTracker.
+
+Le site doit :
+- présenter brièvement l'application ;
+- expliquer ses fonctionnalités principales ;
+- permettre de contacter le créateur ;
+- donner accès aux documents légaux ;
+- être adapté aux ordinateurs, tablettes et mobiles.
+
+# Structure du site
+
+Le site contient exactement 4 pages :
+
+1. Accueil → `/`
+2. Mentions légales → `/mentions-legales`
+3. Politique de confidentialité → `/politique-de-confidentialite`
+4. Conditions générales d'utilisation → `/cgu`
+
+# Navigation
+
+- Le logo HabitTracker doit permettre de revenir à la page d'accueil.
+- Les liens du header permettent d'accéder aux trois pages légales.
+- Les mêmes liens peuvent être présents dans le footer.
+- La navigation doit fonctionner correctement sur mobile.
+- Sur mobile, les liens du header peuvent être regroupés dans un menu.
+
+# Page d'accueil
+
+La page d'accueil présente l'application HabitTracker et explique brièvement son objectif : aider l'utilisateur à construire de bonnes habitudes, à les suivre quotidiennement et à visualiser ses progrès.
+
+## 1. En-tête
+
+Le header contient :
+
+- Le logo et le nom **HabitTracker** à gauche.
+- Trois liens à droite :
+  - **Mentions légales** → `/mentions-legales`
+  - **Politique de confidentialité** → `/politique-de-confidentialite`
+  - **Conditions générales d'utilisation** → `/cgu`
+
+Le header doit rester simple, sobre et cohérent avec le design général du site.
+
+## 2. Section principale — Hero
+
+Le titre principal est :
+
+**Une meilleure version de vous, jour après jour.**
+
+Une partie du titre, notamment **« jour après jour. »**, peut être mise en évidence avec la couleur verte principale de l'application.
+
+Le texte de présentation est :
+
+> HabitTracker est une application de suivi d’habitudes et d’objectifs, pensée pour vous aider à créer des routines positives, à rester motivé et à atteindre vos objectifs, petit à petit.
+
+La section Hero doit également présenter visuellement l'application, avec une représentation d'un smartphone affichant l'interface de HabitTracker.
+
+## 3. Présentation des fonctionnalités
+
+Une section présente les quatre principaux bénéfices de l'application sous forme de quatre blocs.
+
+### Fixez vos objectifs
+
+**Titre :**
+Fixez vos objectifs
+
+**Description :**
+Définissez ce qui compte pour vous et avancez à votre rythme.
+
+**Icône suggérée :**
+Une cible / un objectif.
+
+### Suivez vos habitudes
+
+**Titre :**
+Suivez vos habitudes
+
+**Description :**
+Créez des routines, planifiez vos tâches et ne ratez plus l'essentiel.
+
+**Icône suggérée :**
+Un calendrier.
+
+### Visualisez vos progrès
+
+**Titre :**
+Visualisez vos progrès
+
+**Description :**
+Des statistiques simples et claires pour voir tout ce que vous accomplissez.
+
+**Icône suggérée :**
+Un graphique en barres.
+
+### Restez motivé
+
+**Titre :**
+Restez motivé
+
+**Description :**
+Construisez des séries, relevez des défis et progressez durablement.
+
+**Icône suggérée :**
+Une étoile.
+
+## 4. Section Contact
+
+Une section permet à l'utilisateur de contacter le créateur de l'application.
+
+**Titre :**
+Une question ? Un retour ?
+
+**Description :**
+Si vous avez une question concernant ces informations légales ou souhaitez nous contacter, n'hésitez pas à nous écrire.
+
+**Bouton :**
+Nous contacter →
+
+Le bouton doit ouvrir le client de messagerie de l'utilisateur avec l'adresse :
+
+`remi.delesalle1@gmail.com`
+
+Le lien peut utiliser le protocole `mailto:`.
+
+## 5. Pied de page
+
+Le footer affiche :
+
+**HabitTracker • Tous droits réservés**
+
+Les liens vers les trois pages légales peuvent également être accessibles depuis le footer si cela est pertinent pour la navigation et l'accessibilité.
+
+## 6. Direction artistique
+
+La page doit reprendre le style de la maquette fournie :
+
+- Design sombre et moderne.
+- Fond presque noir avec de légères nuances de bleu/gris.
+- Couleur principale verte, utilisée pour les éléments importants et les accents.
+- Texte principal blanc.
+- Texte secondaire gris clair.
+- Cartes avec des bordures très discrètes.
+- Coins légèrement arrondis.
+- Icônes vertes dans des cercles légèrement transparents.
+- Esthétique minimaliste, moderne et orientée application mobile.
+- Espacements généreux.
+- Hiérarchie visuelle claire.
+- L'ensemble doit être responsive et adapté aux écrans mobiles, tablettes et ordinateurs.
+
+# Responsive
+
+Desktop :
+- Header horizontal.
+- Hero en deux colonnes : texte à gauche, smartphone à droite.
+- Les quatre fonctionnalités sont affichées sur une ligne.
+
+Mobile :
+- Header compact avec navigation adaptée à la largeur.
+- Hero affiché en colonne.
+- L'image du smartphone est redimensionnée.
+- Les quatre fonctionnalités sont empilées verticalement.
+- La section contact est également empilée verticalement.
+
 # Mentions légales
 
 ### 1. Éditeur de l’Application

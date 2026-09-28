@@ -1,481 +1,277 @@
 <!DOCTYPE html>
-<html lang="fr" class="dark">
+<html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HabitTracker - Suivi d'habitudes et d'objectifs</title>
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    colors: {
-                        bgDark: '#0B0F17',
-                        cardDark: '#131822',
-                        cardBorder: '#212836',
-                        accentGreen: '#10B981',
-                        accentBright: '#34D399',
-                        accentHover: '#059669',
-                    },
-                    fontFamily: {
-                        sans: ['Inter', 'system-ui', 'sans-serif'],
-                    },
-                    boxShadow: {
-                        glow: '0 0 40px -10px rgba(16, 185, 129, 0.3)',
-                        glowLg: '0 0 60px -15px rgba(52, 211, 153, 0.4)',
-                        cardGlow: '0 10px 30px -10px rgba(0, 0, 0, 0.5)',
-                    }
-                }
-            }
-        }
-    </script>
-    <!-- Google Fonts Inter & FontAwesome Icons -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-    <style>
-        body {
-            font-family: 'Inter', system-ui, sans-serif;
-            background-color: #0B0F17;
-            color: #FFFFFF;
-            overflow-x: hidden;
-        }
-
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #0B0F17;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #212836;
-            border-radius: 4px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #10B981;
-        }
-
-        /* Modal Overlay Transition */
-        .modal-backdrop {
-            transition: opacity 0.3s ease, visibility 0.3s ease;
-        }
-
-        .modal-backdrop.hidden-modal {
-            opacity: 0;
-            pointer-events: none;
-            visibility: hidden;
-        }
-
-        .modal-content {
-            transition: transform 0.3s ease, opacity 0.3s ease;
-        }
-
-        .modal-backdrop.hidden-modal .modal-content {
-            transform: scale(0.95) translateY(10px);
-            opacity: 0;
-        }
-
-        /* Ambient Glow Effect */
-        .bg-glow-sphere {
-            position: absolute;
-            width: 350px;
-            height: 350px;
-            background: radial-gradient(circle, rgba(16, 185, 129, 0.25) 0%, rgba(11, 15, 23, 0) 70%);
-            border-radius: 50%;
-            pointer-events: none;
-            filter: blur(40px);
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HabitTracker - Une meilleure version de vous, jour après jour</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #0B0F17;
+      color: #E2E8F0;
+    }
+    .glow-green {
+      box-shadow: 0 0 50px -10px rgba(16, 185, 129, 0.3);
+    }
+    .glow-bg {
+      background: radial-gradient(circle at 70% 30%, rgba(16, 185, 129, 0.15) 0%, rgba(11, 15, 23, 0) 60%);
+    }
+    .modal-backdrop {
+      background-color: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(8px);
+    }
+  </style>
 </head>
-<body class="bg-bgDark text-white min-h-screen flex flex-col justify-between selection:bg-accentGreen selection:text-white relative">
+<body class="min-h-screen flex flex-col justify-between glow-bg antialiased selection:bg-emerald-500 selection:text-white">
 
-    <!-- Header / Navbar -->
-    <header class="w-full max-w-7xl mx-auto px-6 py-6 flex flex-wrap items-center justify-between gap-4 z-20">
-        <!-- Brand Logo -->
-        <a href="#" class="flex items-center gap-3 group">
-            <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-accentGreen to-accentBright flex items-center justify-center shadow-glow group-hover:scale-105 transition-transform duration-200">
-                <svg class="w-6 h-6 text-bgDark" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M17,8C8,10 5,16 3,21C8,20 15,18 19,13C21,10 21,5 21,5C21,5 19,7 17,8Z"/>
-                    <path d="M3,21C5,12 12,7 21,5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-                </svg>
-            </div>
-            <span class="text-xl font-bold tracking-tight text-white group-hover:text-accentBright transition-colors">HabitTracker</span>
-        </a>
+  <!-- Header / Navigation -->
+  <header class="max-w-7xl w-full mx-auto px-6 py-8 flex flex-col md:flex-row justify-between items-center gap-6">
+    <div class="flex items-center gap-3">
+      <div class="w-10 h-10 rounded-xl bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center text-emerald-400 text-xl font-bold">
+        <i class="fa-solid font-bold fa-leaf"></i>
+      </div>
+      <span class="text-2xl font-bold tracking-tight text-white">Habit<span class="text-emerald-400">Tracker</span></span>
+    </div>
+    
+    <nav class="flex flex-wrap justify-center gap-6 text-sm font-medium text-slate-300">
+      <button onclick="openModal('mentions')" class="hover:text-emerald-400 transition-colors">Mentions légales</button>
+      <button onclick="openModal('privacy')" class="hover:text-emerald-400 transition-colors">Politique de confidentialité</button>
+      <button onclick="openModal('cgu')" class="hover:text-emerald-400 transition-colors">Conditions générales d’utilisation</button>
+    </nav>
+  </header>
 
-        <!-- Legal Links -->
-        <nav class="flex flex-wrap items-center gap-6 text-sm text-gray-300 font-medium">
-            <button onclick="openModal('mentions')" class="hover:text-accentBright transition-colors py-1">Mentions légales</button>
-            <button onclick="openModal('confidentialite')" class="hover:text-accentBright transition-colors py-1">Politique de confidentialité</button>
-            <button onclick="openModal('cgu')" class="hover:text-accentBright transition-colors py-1">Conditions générales d’utilisation</button>
-        </nav>
-    </header>
+  <!-- Section Hero -->
+  <main class="max-w-7xl w-full mx-auto px-6 py-12 flex-grow">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center mb-20">
+      
+      <!-- Texte de présentation -->
+      <div class="lg:col-span-7 space-y-6">
+        <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white leading-tight">
+          Une meilleure version<br>de vous, <span class="text-emerald-400">jour après jour.</span>
+        </h1>
+        <p class="text-lg text-slate-400 max-w-2xl leading-relaxed">
+          HabitTracker est une application de suivi d’habitudes et d’objectifs, pensée pour vous aider à créer des routines positives, à rester motivé et à atteindre vos objectifs, petit à petit.
+        </p>
+      </div>
 
-    <!-- Main Content Container -->
-    <main class="w-full max-w-7xl mx-auto px-6 py-8 md:py-12 flex-grow flex flex-col gap-16 relative z-10">
-
-        <!-- Hero Section -->
-        <section class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-            
-            <!-- Left Text Content -->
-            <div class="lg:col-span-7 space-y-6 text-left">
-                <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white leading-tight tracking-tight">
-                    Une meilleure version de vous, <span class="text-transparent bg-clip-text bg-gradient-to-r from-accentGreen to-accentBright">jour après jour.</span>
-                </h1>
-                <p class="text-gray-400 text-lg sm:text-xl font-normal leading-relaxed max-w-2xl">
-                    HabitTracker est une application de suivi d’habitudes et d’objectifs, pensée pour vous aider à créer des routines positives, à rester motivé et à atteindre vos objectifs, petit à petit.
-                </p>
-            </div>
-
-            <!-- Right Phone Mockup Visual -->
-            <div class="lg:col-span-5 relative flex justify-center lg:justify-end items-center">
-                <!-- Ambient Backdrop Glows -->
-                <div class="bg-glow-sphere -top-10 -right-10 opacity-75"></div>
-                <div class="bg-glow-sphere bottom-0 left-10 opacity-50"></div>
-
-                <!-- Phone Frame Container -->
-                <div class="relative w-full max-w-[320px] bg-[#0d121c] border-4 border-[#252e3e] rounded-[40px] p-4 shadow-2xl shadow-black/80 overflow-hidden transform hover:-translate-y-2 transition-transform duration-300">
-
-                    <!-- Phone Header Bar -->
-                    <div class="flex justify-between items-center px-2 mb-6 text-xs text-gray-400 font-medium">
-                        <span>9:41</span>
-                        <div class="w-16 h-4 bg-black rounded-full mx-auto"></div>
-                        <div class="flex items-center gap-1">
-                            <i class="fa-solid fa-signal text-[10px]"></i>
-                            <i class="fa-solid fa-wifi text-[10px]"></i>
-                            <i class="fa-solid fa-battery-full text-[10px]"></i>
-                        </div>
-                    </div>
-
-                    <!-- Circular Progress Gauge Card -->
-                    <div class="bg-cardDark border border-cardBorder rounded-2xl p-5 mb-4 text-center shadow-lg relative overflow-hidden">
-                        <div class="relative w-32 h-32 mx-auto flex items-center justify-center">
-                            <!-- SVG Gauge -->
-                            <svg class="w-full h-full transform -rotate-90" viewBox="0 0 36 36">
-                                <path class="text-gray-800" stroke-width="3.5" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
-                                <path class="text-accentBright drop-shadow-[0_0_8px_rgba(52,211,153,0.8)]" stroke-dasharray="71, 100" stroke-width="3.5" stroke-linecap="round" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
-                            </svg>
-                            <span class="absolute text-3xl font-extrabold text-white tracking-tight">71<span class="text-lg text-accentBright">%</span></span>
-                        </div>
-                    </div>
-
-                    <!-- Habit List Items -->
-                    <div class="space-y-3">
-                        <!-- Habit 1 -->
-                        <div class="bg-cardDark/80 border border-cardBorder rounded-xl p-3 flex items-center justify-between">
-                            <div class="flex items-center gap-3">
-                                <div class="w-7 h-7 rounded-lg bg-amber-500/20 text-amber-400 flex items-center justify-center text-xs">
-                                    <i class="fa-solid fa-sun"></i>
-                                </div>
-                                <span class="text-sm font-semibold text-gray-200">Routine matinale</span>
-                            </div>
-                            <span class="text-xs text-gray-400 font-mono font-medium">0 / 6</span>
-                        </div>
-
-                        <!-- Habit 2 (Completed) -->
-                        <div class="bg-cardDark/80 border border-accentGreen/30 rounded-xl p-3 flex items-center justify-between">
-                            <div class="flex items-center gap-3">
-                                <div class="w-7 h-7 rounded-lg bg-accentGreen/20 text-accentBright flex items-center justify-center text-xs">
-                                    <i class="fa-solid fa-check"></i>
-                                </div>
-                                <span class="text-sm font-semibold text-white">Sport</span>
-                            </div>
-                            <span class="text-xs text-accentBright font-mono font-medium">25 min / 30 min</span>
-                        </div>
-
-                        <!-- Habit 3 -->
-                        <div class="bg-cardDark/80 border border-cardBorder rounded-xl p-3 flex items-center justify-between">
-                            <div class="flex items-center gap-3">
-                                <div class="w-7 h-7 rounded-lg bg-blue-500/20 text-blue-400 flex items-center justify-center text-xs">
-                                    <i class="fa-solid fa-person-running"></i>
-                                </div>
-                                <span class="text-sm font-semibold text-gray-200">Lecture</span>
-                            </div>
-                            <span class="text-xs text-gray-400 font-mono font-medium">0 / 30 min</span>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-
-        </section>
-
-        <!-- Features Grid (4 Cards) -->
-        <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            
-            <!-- Card 1 -->
-            <div class="bg-cardDark border border-cardBorder rounded-2xl p-6 flex flex-col justify-between hover:border-accentGreen/50 transition-all duration-300 hover:shadow-cardGlow group">
-                <div>
-                    <div class="w-12 h-12 rounded-full bg-accentGreen/10 border border-accentGreen/20 text-accentBright flex items-center justify-center mb-5 group-hover:bg-accentGreen group-hover:text-bgDark transition-all duration-300">
-                        <i class="fa-solid fa-bullseye text-xl"></i>
-                    </div>
-                    <h3 class="text-lg font-bold text-white mb-2">Fixez vos objectifs</h3>
-                    <p class="text-gray-400 text-sm leading-relaxed">
-                        Définissez ce qui compte pour vous et avancez à votre rythme.
-                    </p>
-                </div>
-            </div>
-
-            <!-- Card 2 -->
-            <div class="bg-cardDark border border-cardBorder rounded-2xl p-6 flex flex-col justify-between hover:border-accentGreen/50 transition-all duration-300 hover:shadow-cardGlow group">
-                <div>
-                    <div class="w-12 h-12 rounded-full bg-accentGreen/10 border border-accentGreen/20 text-accentBright flex items-center justify-center mb-5 group-hover:bg-accentGreen group-hover:text-bgDark transition-all duration-300">
-                        <i class="fa-regular fa-calendar-check text-xl"></i>
-                    </div>
-                    <h3 class="text-lg font-bold text-white mb-2">Suivez vos habitudes</h3>
-                    <p class="text-gray-400 text-sm leading-relaxed">
-                        Créez des routines, planifiez vos tâches et ne ratez plus l'essentiel.
-                    </p>
-                </div>
-            </div>
-
-            <!-- Card 3 -->
-            <div class="bg-cardDark border border-cardBorder rounded-2xl p-6 flex flex-col justify-between hover:border-accentGreen/50 transition-all duration-300 hover:shadow-cardGlow group">
-                <div>
-                    <div class="w-12 h-12 rounded-full bg-accentGreen/10 border border-accentGreen/20 text-accentBright flex items-center justify-center mb-5 group-hover:bg-accentGreen group-hover:text-bgDark transition-all duration-300">
-                        <i class="fa-solid fa-chart-simple text-xl"></i>
-                    </div>
-                    <h3 class="text-lg font-bold text-white mb-2">Visualisez vos progrès</h3>
-                    <p class="text-gray-400 text-sm leading-relaxed">
-                        Des statistiques simples et claires pour voir tout ce que vous accomplissez.
-                    </p>
-                </div>
-            </div>
-
-            <!-- Card 4 -->
-            <div class="bg-cardDark border border-cardBorder rounded-2xl p-6 flex flex-col justify-between hover:border-accentGreen/50 transition-all duration-300 hover:shadow-cardGlow group">
-                <div>
-                    <div class="w-12 h-12 rounded-full bg-accentGreen/10 border border-accentGreen/20 text-accentBright flex items-center justify-center mb-5 group-hover:bg-accentGreen group-hover:text-bgDark transition-all duration-300">
-                        <i class="fa-solid fa-star text-xl"></i>
-                    </div>
-                    <h3 class="text-lg font-bold text-white mb-2">Restez motivé</h3>
-                    <p class="text-gray-400 text-sm leading-relaxed">
-                        Construisez des séries, relevez des défis et progressez durablement.
-                    </p>
-                </div>
-            </div>
-
-        </section>
-
-        <!-- Contact CTA Banner -->
-        <section class="bg-cardDark border border-cardBorder rounded-2xl p-6 md:p-8 flex flex-col md:flex-row items-center justify-between gap-6 hover:border-cardBorder/80 transition-all">
-            <div class="flex items-center gap-5 w-full md:w-auto">
-                <div class="w-14 h-14 rounded-full bg-accentGreen/10 border border-accentGreen/20 text-accentBright flex-shrink-0 flex items-center justify-center">
-                    <i class="fa-regular fa-envelope text-2xl"></i>
-                </div>
-                <div>
-                    <h2 class="text-xl font-bold text-white mb-1">Une question ? Un retour ?</h2>
-                    <p class="text-gray-400 text-sm leading-relaxed max-w-xl">
-                        Si vous avez une question concernant ces informations légales ou souhaitez nous contacter, n'hésitez pas à nous écrire.
-                    </p>
-                </div>
-            </div>
-
-            <!-- Action Button -->
-            <a href="mailto:remi.delesalle1@gmail.com" class="w-full md:w-auto inline-flex items-center justify-center gap-3 bg-gradient-to-r from-accentGreen to-accentBright text-bgDark font-bold px-7 py-3.5 rounded-full hover:shadow-glowLg hover:scale-[1.02] active:scale-[0.98] transition-all text-sm whitespace-nowrap">
-                <i class="fa-regular fa-paper-plane"></i>
-                <span>Nous contacter</span>
-                <i class="fa-solid fa-arrow-right text-xs"></i>
-            </a>
-        </section>
-
-    </main>
-
-    <!-- Footer -->
-    <footer class="w-full py-8 text-center text-xs text-gray-500 font-medium z-10">
-        <p>HabitTracker • Tous droits réservés</p>
-    </footer>
-
-    <!-- Legal Documents Modals Container -->
-    <div id="legalModal" class="modal-backdrop hidden-modal fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
-        <div class="modal-content bg-cardDark border border-cardBorder w-full max-w-3xl max-h-[85vh] rounded-2xl shadow-2xl flex flex-col overflow-hidden">
-            
-            <!-- Modal Header -->
-            <div class="px-6 py-4 border-b border-cardBorder flex items-center justify-between bg-bgDark/50">
-                <div class="flex items-center gap-3">
-                    <div class="w-8 h-8 rounded-lg bg-accentGreen/10 text-accentBright flex items-center justify-center">
-                        <i class="fa-solid fa-shield-halved"></i>
-                    </div>
-                    <h2 id="modalTitle" class="text-xl font-bold text-white">Document Légal</h2>
-                </div>
-                <button onclick="closeModal()" class="w-8 h-8 rounded-lg bg-cardBorder/50 text-gray-400 hover:text-white hover:bg-cardBorder flex items-center justify-center transition-colors">
-                    <i class="fa-solid fa-xmark"></i>
-                </button>
-            </div>
-
-            <!-- Modal Body (Scrollable Legal Text) -->
-            <div id="modalBody" class="p-6 md:p-8 overflow-y-auto space-y-6 text-gray-300 text-sm leading-relaxed">
-                <!-- Content injected dynamically via JavaScript -->
-            </div>
-
-            <!-- Modal Footer -->
-            <div class="px-6 py-4 border-t border-cardBorder bg-bgDark/50 flex justify-end">
-                <button onclick="closeModal()" class="px-5 py-2 bg-cardBorder hover:bg-gray-700 text-white font-medium rounded-xl text-sm transition-colors">
-                    Fermer
-                </button>
-            </div>
-
+      <!-- Smartphone avec capture d'écran réelle de l'app -->
+      <div class="lg:col-span-5 flex justify-center relative">
+        <!-- Effet de lueur derrière le téléphone -->
+        <div class="absolute inset-0 bg-emerald-500/20 rounded-full filter blur-3xl -z-10 transform scale-75"></div>
+        
+        <div class="relative border-[8px] border-slate-800 bg-black rounded-[40px] shadow-2xl overflow-hidden max-w-[300px] w-full border-slate-700/60 glow-green">
+          <!-- Mockup d'encoche / camera -->
+          <div class="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-5 bg-slate-800 rounded-b-xl z-20"></div>
+          
+          <!-- Image réelle de l'application -->
+          <img 
+            src="data:image/jpeg;base64,YOUR_APP_SCREENSHOT_PLACEHOLDER" 
+            alt="HabitTracker App Interface" 
+            class="w-full h-auto object-cover rounded-[32px] pt-2"
+          />
         </div>
+      </div>
     </div>
 
-    <script>
-        // Full textual content retrieved directly from provided specifications
-        const legalTexts = {
-            mentions: `
-                <h2 class="text-2xl font-bold text-white mb-4">Mentions légales</h2>
-                
-                <h3 class="text-lg font-semibold text-accentBright mt-6 mb-2">1. Éditeur de l’Application</h3>
-                <p>L’application mobile (ci-après « l’Application ») est éditée par :</p>
-                <ul class="list-disc list-inside space-y-1 my-2 pl-2">
-                    <li><strong class="text-white">Nom / Dénomination :</strong> EI Rémi Delesalle (Entreprise Individuelle)</li>
-                    <li><strong class="text-white">Immatriculation / SIREN :</strong> 101659670</li>
-                    <li><strong class="text-white">Adresse de l’établissement :</strong> 4 chemin de Boiry, 62217 Neuville-Vitasse, France</li>
-                    <li><strong class="text-white">Directeur de la publication :</strong> Rémi Delesalle</li>
-                    <li><strong class="text-white">Contact email :</strong> <a href="mailto:remi.delesalle1@gmail.com" class="text-accentBright underline">remi.delesalle1@gmail.com</a></li>
-                </ul>
+    <!-- Grille des fonctionnalités -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+      
+      <div class="bg-[#131822] border border-slate-800/80 rounded-2xl p-6 hover:border-emerald-500/30 transition-all group">
+        <div class="w-12 h-12 rounded-full bg-emerald-500/10 flex items-center justify-center text-emerald-400 mb-4 group-hover:scale-110 transition-transform">
+          <i class="fa-solid fa-bullseye text-xl"></i>
+        </div>
+        <h3 class="text-lg font-bold text-white mb-2">Fixez vos objectifs</h3>
+        <p class="text-slate-400 text-sm leading-relaxed">
+          Définissez ce qui compte pour vous et avancez à votre rythme.
+        </p>
+      </div>
 
-                <h3 class="text-lg font-semibold text-accentBright mt-6 mb-2">2. Hébergement et Services Backend</h3>
-                <p>Les données relatives à l’Application et à l’authentification sont hébergées par :</p>
-                <ul class="list-disc list-inside space-y-1 my-2 pl-2">
-                    <li><strong class="text-white">Supabase Inc.</strong></li>
-                    <li><strong class="text-white">Adresse du siège :</strong> 970 Toa Payoh North #07-04, Singapour 318992</li>
-                    <li><strong class="text-white">Lieu d’hébergement des données :</strong> Union Européenne — Irlande (<code class="bg-bgDark px-1.5 py-0.5 rounded text-accentBright">eu-west-1</code>)</li>
-                </ul>
-                <p class="text-xs text-gray-400 italic mt-3">*Les magasins d’applications (Apple App Store et Google Play Store) assurent la distribution de l’Application.*</p>
-            `,
+      <div class="bg-[#131822] border border-slate-800/80 rounded-2xl p-6 hover:border-emerald-500/30 transition-all group">
+        <div class="w-12 h-12 rounded-full bg-emerald-500/10 flex items-center justify-center text-emerald-400 mb-4 group-hover:scale-110 transition-transform">
+          <i class="fa-regular fa-calendar-check text-xl"></i>
+        </div>
+        <h3 class="text-lg font-bold text-white mb-2">Suivez vos habitudes</h3>
+        <p class="text-slate-400 text-sm leading-relaxed">
+          Créez des routines, planifiez vos tâches et ne ratez plus l'essentiel.
+        </p>
+      </div>
 
-            confidentialite: `
-                <h2 class="text-2xl font-bold text-white mb-4">Politique de confidentialité</h2>
+      <div class="bg-[#131822] border border-slate-800/80 rounded-2xl p-6 hover:border-emerald-500/30 transition-all group">
+        <div class="w-12 h-12 rounded-full bg-emerald-500/10 flex items-center justify-center text-emerald-400 mb-4 group-hover:scale-110 transition-transform">
+          <i class="fa-solid fa-chart-line text-xl"></i>
+        </div>
+        <h3 class="text-lg font-bold text-white mb-2">Visualisez vos progrès</h3>
+        <p class="text-slate-400 text-sm leading-relaxed">
+          Des statistiques simples et claires pour voir tout ce que vous accomplissez.
+        </p>
+      </div>
 
-                <h3 class="text-lg font-semibold text-accentBright mt-6 mb-2">1. Responsable du Traitement</h3>
-                <p>Le responsable du traitement des données personnelles collectées via l’Application est :</p>
-                <ul class="list-disc list-inside space-y-1 my-2 pl-2">
-                    <li><strong class="text-white">EI Rémi Delesalle</strong></li>
-                    <li><strong class="text-white">Email :</strong> <a href="mailto:remi.delesalle1@gmail.com" class="text-accentBright underline">remi.delesalle1@gmail.com</a></li>
-                    <li><strong class="text-white">Adresse :</strong> 4 chemin de Boiry, 62217 Neuville-Vitasse</li>
-                </ul>
+      <div class="bg-[#131822] border border-slate-800/80 rounded-2xl p-6 hover:border-emerald-500/30 transition-all group">
+        <div class="w-12 h-12 rounded-full bg-emerald-500/10 flex items-center justify-center text-emerald-400 mb-4 group-hover:scale-110 transition-transform">
+          <i class="fa-solid fa-star text-xl"></i>
+        </div>
+        <h3 class="text-lg font-bold text-white mb-2">Restez motivé</h3>
+        <p class="text-slate-400 text-sm leading-relaxed">
+          Construisez des séries, relevez des défis et progressez durablement.
+        </p>
+      </div>
 
-                <h3 class="text-lg font-semibold text-accentBright mt-6 mb-2">2. Données Collectées</h3>
-                <p>Dans le cadre de l’utilisation de l’Application, nous pouvons collecter :</p>
-                <ol class="list-decimal list-inside space-y-2 my-2 pl-2">
-                    <li><strong class="text-white">Données de compte / Authentification :</strong> Adresse email, mot de passe chiffré (gérés via Supabase).</li>
-                    <li><strong class="text-white">Données d’utilisation et d’habitudes :</strong> Intitulés des habitudes, catégories, paramétrages (unités, durées, coefficients), relevés quotidiens de complétion, historiques et chronomètres.</li>
-                    <li><strong class="text-white">Données techniques et de suivi :</strong> Identifiants techniques de l'appareil, données nécessaires à l'envoi de notifications locales ou push (si autorisées).</li>
-                </ol>
+    </div>
 
-                <h3 class="text-lg font-semibold text-accentBright mt-6 mb-2">3. Finalités et Bases Légales du Traitement</h3>
-                <ul class="list-disc list-inside space-y-2 my-2 pl-2">
-                    <li><strong class="text-white">Fourniture du service et synchronisation (Exécution du contrat) :</strong> Permettre la création d'habitudes, la sauvegarde des données, le calcul des statistiques et graphiques, et l'accès aux fonctions Premium.</li>
-                    <li><strong class="text-white">Gestion des abonnements et accès (Exécution du contrat) :</strong> Vérifier les droits d'accès aux fonctionnalités Premium ou gratuites.</li>
-                    <li><strong class="text-white">Notifications et rappels (Consentement) :</strong> Envoyer des rappels d'objectifs ou des notifications de rappel (configurables ou désactivables par l'utilisateur).</li>
-                    <li><strong class="text-white">Statistiques globales anonymisées (Intérêt légitime) :</strong> Mesurer l'utilisation globale pour améliorer les performances et les fonctionnalités de l'Application.</li>
-                </ul>
+    <!-- Section Contact -->
+    <div class="bg-[#131822] border border-slate-800/80 rounded-2xl p-8 flex flex-col md:flex-row items-center justify-between gap-6">
+      <div class="flex items-center gap-6">
+        <div class="w-16 h-16 rounded-2xl bg-emerald-500/10 flex items-center justify-center text-emerald-400 shrink-0">
+          <i class="fa-regular fa-envelope text-2xl"></i>
+        </div>
+        <div>
+          <h3 class="text-xl font-bold text-white mb-1">Une question ? Un retour ?</h3>
+          <p class="text-slate-400 text-sm">
+            Si vous avez une question concernant ces informations légales ou souhaitez nous contacter, n'hésitez pas à nous écrire.
+          </p>
+        </div>
+      </div>
+      <a 
+        href="mailto:remi.delesalle1@gmail.com?subject=Contact%20HabitTracker" 
+        class="inline-flex items-center gap-3 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-semibold px-6 py-3.5 rounded-xl transition-all shadow-lg shadow-emerald-500/20 whitespace-nowrap"
+      >
+        <i class="fa-regular fa-paper-plane"></i>
+        <span>Nous contacter</span>
+        <i class="fa-solid fa-arrow-right text-xs"></i>
+      </a>
+    </div>
+  </main>
 
-                <h3 class="text-lg font-semibold text-accentBright mt-6 mb-2">4. Conservation des Données</h3>
-                <p>Les données de votre compte et vos habitudes sont conservées pendant toute la durée d’activité de votre compte. En cas d’inactivité prolongée ou de demande de suppression, les données personnelles sont supprimées ou anonymisées dans les délais légaux.</p>
+  <!-- Footer -->
+  <footer class="border-t border-slate-800/60 py-6 text-center text-xs text-slate-500">
+    <p>HabitTracker • Tous droits réservés</p>
+  </footer>
 
-                <h3 class="text-lg font-semibold text-accentBright mt-6 mb-2">5. Destinataires des Données</h3>
-                <p>Vos données personnelles ne sont ni vendues, ni louées, ni cédées à des tiers. Elles sont transmises uniquement aux sous-traitants techniques nécessaires au fonctionnement de l'Application :</p>
-                <ul class="list-disc list-inside space-y-1 my-2 pl-2">
-                    <li>Hébergement des données : Région UE - Irlande (<code class="bg-bgDark px-1.5 py-0.5 rounded text-accentBright">eu-west-1</code>)</li>
-                    <li><strong class="text-white">Apple / Google</strong> (Gestion des achats In-App et distribution de l'application).</li>
-                </ul>
+  <!-- Modal pour les documents légaux -->
+  <div id="modal" class="fixed inset-0 z-50 hidden modal-backdrop flex items-center justify-center p-4">
+    <div class="bg-[#131822] border border-slate-800 rounded-2xl w-full max-w-3xl max-h-[85vh] flex flex-col shadow-2xl overflow-hidden">
+      <!-- En-tête de la modale -->
+      <div class="px-6 py-4 border-b border-slate-800 flex justify-between items-center bg-slate-900/50">
+        <h2 id="modal-title" class="text-xl font-bold text-white"></h2>
+        <button onclick="closeModal()" class="text-slate-400 hover:text-white p-2 text-lg">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+      
+      <!-- Contenu textuel -->
+      <div id="modal-body" class="p-6 overflow-y-auto space-y-4 text-slate-300 text-sm leading-relaxed">
+        <!-- Rempli en JS -->
+      </div>
 
-                <h3 class="text-lg font-semibold text-accentBright mt-6 mb-2">6. Vos Droits (RGPD)</h3>
-                <p>Conformément à la réglementation européenne sur la protection des données (RGPD), vous disposez des droits suivants :</p>
-                <ul class="list-disc list-inside space-y-1 my-2 pl-2">
-                    <li>Droit d’accès, de rectification et de suppression de vos données ;</li>
-                    <li>Droit à la limitation et à l’opposition au traitement ;</li>
-                    <li>Droit à la portabilité de vos données.</li>
-                </ul>
-                <p class="mt-2">Vous pouvez exercer ces droits à tout moment en envoyant un e-mail à : <a href="mailto:remi.delesalle1@gmail.com" class="text-accentBright underline">remi.delesalle1@gmail.com</a>. Vous disposez également du droit de déposer une réclamation auprès de la CNIL (<a href="https://www.cnil.fr" target="_blank" class="text-accentBright underline">www.cnil.fr</a>).</p>
-            `,
+      <!-- Pied de modale -->
+      <div class="px-6 py-4 border-t border-slate-800 text-right bg-slate-900/50">
+        <button onclick="closeModal()" class="px-5 py-2 bg-slate-800 hover:bg-slate-700 text-white text-sm font-medium rounded-lg transition-colors">
+          Fermer
+        </button>
+      </div>
+    </div>
+  </div>
 
-            cgu: `
-                <h2 class="text-2xl font-bold text-white mb-4">Conditions Générales d’Utilisation (CGU)</h2>
+  <script>
+    const contentData = {
+      mentions: {
+        title: "Mentions légales",
+        html: `
+          <h3 class="text-emerald-400 font-semibold text-base mb-2">1. Éditeur de l’Application</h3>
+          <p class="mb-4">L’application mobile est éditée par :</p>
+          <ul class="list-disc pl-5 space-y-1 mb-6">
+            <li><strong>Nom / Dénomination :</strong> EI Rémi Delesalle (Entreprise Individuelle)</li>
+            <li><strong>Immatriculation / SIREN :</strong> 101659670</li>
+            <li><strong>Adresse :</strong> 4 chemin de Boiry, 62217 Neuville-Vitasse, France</li>
+            <li><strong>Directeur de la publication :</strong> Rémi Delesalle</li>
+            <li><strong>Contact email :</strong> <a href="mailto:remi.delesalle1@gmail.com" class="text-emerald-400 underline">remi.delesalle1@gmail.com</a></li>
+          </ul>
 
-                <h3 class="text-lg font-semibold text-accentBright mt-6 mb-2">Article 1 - Objet et acceptation</h3>
-                <p>Les présentes Conditions Générales d’Utilisation (CGU) ont pour objet de définir les modalités de mise à disposition et d'utilisation de l’Application éditée par l’EI Rémi Delesalle.</p>
-                <p class="mt-2">Toute création de compte ou utilisation de l’Application implique l’acceptation sans réserve des présentes CGU par l’utilisateur.</p>
+          <h3 class="text-emerald-400 font-semibold text-base mb-2">2. Hébergement et Services Backend</h3>
+          <p class="mb-2">Les données relatives à l’Application et à l’authentification sont hébergées par :</p>
+          <ul class="list-disc pl-5 space-y-1 mb-4">
+            <li><strong>Supabase Inc.</strong></li>
+            <li><strong>Adresse du siège :</strong> 970 Toa Payoh North #07-04, Singapour 318992</li>
+            <li><strong>Lieu d’hébergement des données :</strong> Union Européenne — Irlande (<code>eu-west-1</code>)</li>
+          </ul>
+          <p class="text-xs text-slate-400 italic">Les magasins d’applications (Apple App Store et Google Play Store) assurent la distribution de l’Application.</p>
+        `
+      },
+      privacy: {
+        title: "Politique de confidentialité",
+        html: `
+          <h3 class="text-emerald-400 font-semibold text-base mb-2">1. Responsable du Traitement</h3>
+          <p class="mb-4">EI Rémi Delesalle (Email : remi.delesalle1@gmail.com, Adresse : 4 chemin de Boiry, 62217 Neuville-Vitasse).</p>
 
-                <h3 class="text-lg font-semibold text-accentBright mt-6 mb-2">Article 2 - Description des Services</h3>
-                <p>L’Application permet de planifier des habitudes, de valider quotidiennement leur réalisation via des listes de tâches et de suivre sa progression globale ou par catégorie (santé, professionnel, etc.) au moyen de graphiques et d’indicateurs (streaks, coefficients, unités quantitatives ou temporelles).</p>
+          <h3 class="text-emerald-400 font-semibold text-base mb-2">2. Données Collectées</h3>
+          <ol class="list-decimal pl-5 space-y-2 mb-4">
+            <li><strong>Données de compte / Authentification :</strong> Adresse email, mot de passe chiffré (gérés via Supabase).</li>
+            <li><strong>Données d’utilisation et d’habitudes :</strong> Intitulés des habitudes, catégories, paramétrages, relevés quotidiens de complétion, historiques et chronomètres.</li>
+            <li><strong>Données techniques :</strong> Identifiants techniques de l'appareil et paramètres de notifications.</li>
+          </ol>
 
-                <h3 class="text-lg font-semibold text-accentBright mt-6 mb-2">Article 3 - Accès et Modèles de Monétisation</h3>
-                
-                <h4 class="text-md font-medium text-white mt-3 mb-1">3.1. Offre Gratuite</h4>
-                <p>L’accès initial à l’Application est gratuit et comprend notamment :</p>
-                <ul class="list-disc list-inside space-y-1 my-2 pl-2">
-                    <li>La création de 5 habitudes maximum ;</li>
-                    <li>Une limitation dans la consultation de l’historique des statistiques (ex. accès limité aux 3 derniers mois) ;</li>
-                    <li>L’absence d’accès aux widgets d’écran d’accueil, aux rappels/notifications d’habitudes, à la mise en pause d’habitudes et à la programmation de modifications futures.</li>
-                </ul>
-                <p class="text-xs text-gray-400 mt-1">L’authentification peut être différée mais une incitation à la création de compte intervient au fil de l'utilisation.</p>
+          <h3 class="text-emerald-400 font-semibold text-base mb-2">3. Finalités et Bases Légales</h3>
+          <ul class="list-disc pl-5 space-y-2 mb-4">
+            <li><strong>Fourniture du service et synchronisation :</strong> Création d'habitudes, sauvegarde, calcul des statistiques.</li>
+            <li><strong>Gestion des abonnements :</strong> Vérification des accès Premium.</li>
+            <li><strong>Notifications et rappels :</strong> Rappels d'objectifs personnalisables.</li>
+          </ul>
 
-                <h4 class="text-md font-medium text-white mt-4 mb-1">3.2. Offres Payantes (Abonnements et Offre Lifetime / Premium)</h4>
-                <p>L’utilisateur peut souscrire une formule payante (« Premium ») lui débloquant les fonctionnalités avancées (habitudes et groupes illimités, historique illimité, widgets, rappels/notifications, pause d’habitudes, etc.).</p>
-                <p class="mt-2">Les tarifs applicables, les durées d'engagement (mensuelle, annuelle ou achat définitif « Lifetime »), ainsi que les modalités des périodes d’essai gratuit (ex. 7 jours gratuits) sont explicitement présentés dans l’Application au moment de la souscription.</p>
-                <ul class="list-disc list-inside space-y-2 my-2 pl-2">
-                    <li><strong class="text-white">Modalités de paiement :</strong> Tout paiement s’effectue directement via le système d’achat intégré (In-App Purchase) des plateformes Apple App Store ou Google Play Store. Les conditions de facturation, de renouvellement automatique et de remboursement sont régies par les conditions générales de la plateforme concernée (Apple ou Google).</li>
-                    <li><strong class="text-white">Parrainage / Liens de partage :</strong> En cas de téléchargement et création de compte par un tiers via un lien de partage valide fourni par l'utilisateur, des avantages temporaires (ex. 1 mois de Premium gratuit) peuvent être attribués selon les modalités détaillées dans l'Application.</li>
-                </ul>
+          <h3 class="text-emerald-400 font-semibold text-base mb-2">4. Conservations et Destinataires</h3>
+          <p class="mb-4">Vos données personnelles sont conservées pendant toute la durée d’activité de votre compte et ne sont ni vendues ni louées à des tiers. Elles sont hébergées dans l'Union Européenne (Irlande - <code>eu-west-1</code>).</p>
 
-                <h3 class="text-lg font-semibold text-accentBright mt-6 mb-2">Article 4 - Droit de Rétractation</h3>
-                <p>Conformément aux règles applicables aux magasins d’applications Apple App Store et Google Play Store, les achats de contenus et services numériques s'exécutent immédiatement après validation. L'exercice du droit de rétractation et les demandes de remboursement doivent s'effectuer directement auprès des services clients d’Apple ou de Google selon leurs conditions en vigueur.</p>
+          <h3 class="text-emerald-400 font-semibold text-base mb-2">5. Vos Droits (RGPD)</h3>
+          <p>Conformément au RGPD, vous disposez d'un droit d'accès, de rectification, de suppression et de portabilité de vos données. Pour exercer vos droits : <a href="mailto:remi.delesalle1@gmail.com" class="text-emerald-400 underline">remi.delesalle1@gmail.com</a>.</p>
+        `
+      },
+      cgu: {
+        title: "Conditions Générales d'Utilisation (CGU)",
+        html: `
+          <h3 class="text-emerald-400 font-semibold text-base mb-2">Article 1 - Objet et acceptation</h3>
+          <p class="mb-4">Les présentes CGU ont pour objet de définir les modalités d'utilisation de l'Application par l'EI Rémi Delesalle. Toute utilisation implique l'acceptation sans réserve des CGU.</p>
 
-                <h3 class="text-lg font-semibold text-accentBright mt-6 mb-2">Article 5 - Propriété Intellectuelle</h3>
-                <p>L’ensemble des éléments de l’Application (textes, graphismes, interfaces, icônes, animations, codes sources) sont la propriété exclusive de l’EI Rémi Delesalle. Toute reproduction, représentation ou exploitation non autorisée est strictly interdite.</p>
+          <h3 class="text-emerald-400 font-semibold text-base mb-2">Article 2 - Description des Services</h3>
+          <p class="mb-4">L’Application permet de planifier des habitudes, de valider quotidiennement leur réalisation et de suivre sa progression globale ou par catégorie (santé, professionnel, etc.).</p>
 
-                <h3 class="text-lg font-semibold text-accentBright mt-6 mb-2">Article 6 - Responsabilité</h3>
-                <ul class="list-disc list-inside space-y-2 my-2 pl-2">
-                    <li>L’Éditeur met en œuvre les moyens raisonnables pour assurer la disponibilité et le bon fonctionnement de l’Application. Il ne saurait être tenu responsable des dysfonctionnements liés à l’équipement de l'utilisateur, au réseau internet ou aux systèmes d’exploitation tiers (iOS, Android).</li>
-                    <li>L’Application est un outil de suivi personnel et d'organisation. Elle ne constitue en aucun cas un conseil médical, de santé ou professionnel.</li>
-                </ul>
+          <h3 class="text-emerald-400 font-semibold text-base mb-2">Article 3 - Accès et Modèles de Monétisation</h3>
+          <p class="mb-2"><strong>3.1 Offre Gratuite :</strong> Accès initial limité à 5 habitudes maximum et à un historique restreint.</p>
+          <p class="mb-4"><strong>3.2 Offres Payantes (Premium) :</strong> Déblocage des fonctionnalités avancées (habitudes illimitées, widgets, rappels, etc.). Paiements gérés directement via In-App Purchase (Apple App Store / Google Play Store).</p>
 
-                <h3 class="text-lg font-semibold text-accentBright mt-6 mb-2">Article 7 - Droit Applicable</h3>
-                <p>Les présentes CGU sont soumises au droit français. Tout litige relatif à leur interprétation ou leur exécution relève des tribunals compétents français.</p>
-            `
-        };
+          <h3 class="text-emerald-400 font-semibold text-base mb-2">Article 4 - Droit de Rétractation</h3>
+          <p class="mb-4">L'exercice du droit de rétractation s'effectue directement auprès d'Apple ou de Google selon leurs conditions en vigueur.</p>
 
-        const modalElement = document.getElementById('legalModal');
-        const modalTitle = document.getElementById('modalTitle');
-        const modalBody = document.getElementById('modalBody');
+          <h3 class="text-emerald-400 font-semibold text-base mb-2">Article 5 - Propriété Intellectuelle & Droit Applicable</h3>
+          <p>Les éléments de l’Application sont la propriété exclusive de l’EI Rémi Delesalle. Les présentes CGU sont soumises au droit français.</p>
+        `
+      }
+    };
 
-        function openModal(type) {
-            let title = "Document Légal";
-            if (type === 'mentions') title = "Mentions Légales";
-            if (type === 'confidentialite') title = "Politique de Confidentialité";
-            if (type === 'cgu') title = "Conditions Générales d’Utilisation";
+    function openModal(key) {
+      const modal = document.getElementById('modal');
+      const title = document.getElementById('modal-title');
+      const body = document.getElementById('modal-body');
+      
+      if (contentData[key]) {
+        title.innerText = contentData[key].title;
+        body.innerHTML = contentData[key].html;
+        modal.classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+      }
+    }
 
-            modalTitle.textContent = title;
-            modalBody.innerHTML = legalTexts[type] || "<p>Contenu non disponible.</p>";
+    function closeModal() {
+      const modal = document.getElementById('modal');
+      modal.classList.add('hidden');
+      document.body.style.overflow = 'auto';
+    }
 
-            modalElement.classList.remove('hidden-modal');
-            document.body.style.overflow = 'hidden'; // Prevent background scrolling
-        }
-
-        function closeModal() {
-            modalElement.classList.add('hidden-modal');
-            document.body.style.overflow = '';
-        }
-
-        // Close modal when clicking outside
-        modalElement.addEventListener('click', (e) => {
-            if (e.target === modalElement) {
-                closeModal();
-            }
-        });
-
-        // Close on Escape key
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && !modalElement.classList.contains('hidden-modal')) {
-                closeModal();
-            }
-        });
-    </script>
+    // Fermeture avec la touche Échap
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeModal();
+    });
+  </script>
 </body>
 </html>
