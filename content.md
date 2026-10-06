@@ -119,7 +119,7 @@ Nous contacter →
 
 Le bouton doit ouvrir le client de messagerie de l'utilisateur avec l'adresse :
 
-`remi.delesalle1@gmail.com`
+`contact@habileto.fr`
 
 Le lien peut utiliser le protocole `mailto:`.
 
@@ -172,7 +172,7 @@ L’application mobile (ci-après « l’Application ») est éditée par :
 - **Immatriculation / SIREN** : 101659670
 - **Adresse de l’établissement** : 4 chemin de Boiry, 62217 Neuville-Vitasse, France
 - **Directeur de la publication** : Rémi Delesalle
-- **Contact email** : remi.delesalle1@gmail.com
+- **Contact email** : contact@habileto.fr
 
 ### 2. Hébergement et Services Backend
 
@@ -240,7 +240,7 @@ Les présentes CGU sont soumises au droit français. Tout litige relatif à leur
 Le responsable du traitement des données personnelles collectées via l’Application est :
 
 - **EI Rémi Delesalle**
-- Email : remi.delesalle1@gmail.com
+- Email : contact@habileto.fr
 - Adresse : 4 chemin de Boiry, 62217 Neuville-Vitasse
 
 ### 2. Données Collectées
@@ -278,4 +278,4 @@ Conformément à la réglementation européenne sur la protection des données (
 - Droit à la limitation et à l’opposition au traitement ;
 - Droit à la portabilité de vos données.
 
-Vous pouvez exercer ces droits à tout moment en envoyant un e-mail à : **remi.delesalle1@gmail.com**. Vous disposez également du droit de déposer une réclamation auprès de la CNIL (www.cnil.fr).
+Vous pouvez exercer ces droits à tout moment en envoyant un e-mail à : **contact@habileto.fr**. Vous disposez également du droit de déposer une réclamation auprès de la CNIL (www.cnil.fr).
